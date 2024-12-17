@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Transcript Processing Application \- Project Description
+
+## Overview
+
+You'll be building a Next.js application that processes transcript files using OpenAI's API. Users can upload transcripts, and the application will generate summaries and key points.
+
+## Core Requirements
+
+### Frontend
+
+- Drag-and-drop interface for transcript uploads  
+- Display loading states during processing  
+- Show generated summary and key points  
+- Handle errors with user feedback  
+- Responsive design using Tailwind CSS
+
+### Backend
+
+- Process uploaded transcripts using Next.js API routes  
+- Integrate with OpenAI's API  
+- Return structured data (summary and key points)  
+- Implement error handling
 
 ## Getting Started
 
-First, run the development server:
+1. Create new Next.js project:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+npx create-next-app@latest transcript-processor
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Select the following options:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- TypeScript: Yes  
+- ESLint: Yes  
+- Tailwind CSS: Yes  
+- src/ directory: Yes  
+- App Router: Yes  
+- Import alias: No  
+2. Install dependencies:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+cd transcript-processor
+npm install react-dropzone openai axios
+```
 
-## Learn More
+3. Set up environment variable: Create `.env.local` and add your OpenAI API key:
 
-To learn more about Next.js, take a look at the following resources:
+```
+OPENAI_API_KEY=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Resources
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js Docs: [https://nextjs.org/docs](https://nextjs.org/docs)  
+- OpenAI API: [https://platform.openai.com/docs/api-reference](https://platform.openai.com/docs/api-reference)  
+- React Dropzone: [https://react-dropzone.js.org/](https://react-dropzone.js.org/)
 
-## Deploy on Vercel
+## Time Allocation (35 minutes)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Project setup: 5 minutes  
+- API route implementation: 10 minutes  
+- Frontend component: 15 minutes  
+- Error handling and styling: 5 minutes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Evaluation Criteria
+
+- Clean, maintainable code  
+- Proper error handling  
+- Responsive design  
+- API security  
+- Component organization
+
+## Bonus Points
+
+- TypeScript type definitions  
+- Loading states  
+- Error boundary implementation  
+- Rate limiting  
+- Input validation
+
+# Code Snippets
+
+1. Calling OpenAI API
+
+```
+const response = await openai.chat.completions.create({
+  model: "gpt-4o-mini",
+  messages: [
+    {
+      role: "system",
+      content: "Generate a summary and key points from the following transcript. Format the response as JSON with 'summary' and 'keyPoints' fields, where keyPoints is an array of strings."
+    },
+    {
+      role: "user",
+      content: transcript
+    }
+  ],
+  temperature: 0.7,
+  max_tokens: 500,
+  response_format: { type: "json_object" }
+});
+
+// @ts-ignore
+const result = response.choices[0].message.content;
+return NextResponse.json(result);
+```
+
+# Sample UI
+
+![alt text](final.png)
